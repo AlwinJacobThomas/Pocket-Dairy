@@ -13,4 +13,4 @@ ___
 - See past diary
 - For a particular day user can write one diary
 - They can also go through past diary
-- Search through the diar
+- Search through the diary
