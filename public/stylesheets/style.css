@@ -2,10 +2,52 @@ body{
     padding: 0;
     margin: 0;
     height: 100vh;
-    
-    
-    
+}
+a{
+    text-decoration: none;
+    color: white;
 }
 .color-code{
     filter: invert(95%) sepia(0%) saturate(22%) hue-rotate(327deg) brightness(103%) contrast(107%);
+}
+section{
+    position: relative;
+    top: 0;
+}
+.container-fluid{
+    
+    background-image: url(/images/bg.png);
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+}
+.btn{
+   background-color: #5562ea;
+   color: white; 
+   text-decoration: none;
+}
+.title{
+    z-index: 1;
+    color: #5562ea;
+    font-size: 70px;
+    line-height: 60px;
+    font-weight: bold;
+    font-family: poppins;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 50;
+}
+.desc{
+    font-family: poppins;
+    color: rgb(75, 75, 75);
+    font-size: 20px;
 }
