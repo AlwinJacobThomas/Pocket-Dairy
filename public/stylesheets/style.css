@@ -1,0 +1,11 @@
+body{
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    
+    
+    
+}
+.color-code{
+    filter: invert(95%) sepia(0%) saturate(22%) hue-rotate(327deg) brightness(103%) contrast(107%);
+}
