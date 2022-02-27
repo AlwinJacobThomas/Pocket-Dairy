@@ -31,16 +31,16 @@ app.use(fileUpload())
 
 app.use(session({
   secret:"Key",
-  cookie:{maxAge:600000},
+  cookie:{maxAge:6000000},
   resave: false,
   saveUninitialized: true
 }))
 
 db.connect((err)=>{
   if (err)
-  console.log("connection error"+err)
+  console.log("db connection error"+err)
   else
-  console.log("connection succesful")
+  console.log("db connection succesful")
 })
 
 app.use('/', indexRouter);

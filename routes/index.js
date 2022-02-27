@@ -5,10 +5,12 @@ var userHelpers = require('../helpers/user-helper');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let user=req.session.user
-  if(user)
-    {console.log(user.email);}
-   res.render('users/index',{user});
-    
+  if(user){
+    res.render('users/user-index',{user});
+  }
+  else{
+    res.render('users/index',{user});
+  }
 });
 router.get('/login',(req,res)=>{
   if(req.session.loginStatus){
@@ -43,5 +45,8 @@ router.post('/signup',(req,res)=>{
     console.log(response)
     res.redirect('/login')
   })
+})
+router.get('/add-journal',(req,res)=>{
+  res.render('users/add-journal')
 })
 module.exports = router;

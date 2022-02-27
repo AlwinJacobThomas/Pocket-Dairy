@@ -19,35 +19,37 @@
 </head>
 
 <body>
-  <nav class="navbar header navbar-expand-lg bg-light navbar-light ">
-    <div class="navbar-brand text-dark">Pocket Dairy</div>
-    {{!-- adding a burger icon button as toggler --}}
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu">
+  <nav class="navbar  header navbar-expand-lg bg-light navbar-light ">
+    
+      <div class="navbar-brand text-dark">Pocket Dairy</div>
+      {{!-- adding a burger icon button as toggler --}}
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu">
         <span class="navbar-toggler-icon"></span>
-    </button>
-    {{!-- end of toggler --}}
-    <div class="collapse navbar-collapse" id="navmenu">
+      </button>
+      {{!-- end of toggler --}}
+      <div class="collapse navbar-collapse" id="navmenu">
         <ul class=" navbar-nav ml-auto ">
-            {{#if user}}
-            <li class="nav-item text-dark align-self-center">
-                <p class="h5">{{user.email}}</p>
-            </li>
-            <li class="nav-item ">
+          {{#if user}}
+          <li class="nav-item text-dark align-self-center">
+            <p class="h5">{{user.email}}</p>
+          </li>
+          <li class="nav-item ">
 
-                <a href="/logout" class="btn btn-primary text-light nav-link m-1">Logout</a>
-            </li>
-            {{else}}
+            <a href="/logout" class="btn btn-primary text-light nav-link m-1">Logout</a>
+          </li>
+          {{else}}
 
-            <li class="nav-item ">
-                <a href="/login" class="btn btn-primary text-light nav-link m-1">Login</a>
-            </li>
-            <li class="nav-item">
-                <a href="/signup" class="btn btn-primary text-light nav-link m-1">Signup</a>
-            </li>
-            {{/if}}
+          <li class="nav-item ">
+            <a href="/login" class="btn btn-primary text-light nav-link m-1">Login</a>
+          </li>
+          <li class="nav-item">
+            <a href="/signup" class="btn btn-primary text-light nav-link m-1">Signup</a>
+          </li>
+          {{/if}}
         </ul>
-    </div>
-</nav>
+      </div>
+
+  </nav>
   {{{body}}}
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
