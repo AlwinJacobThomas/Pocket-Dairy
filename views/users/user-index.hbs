@@ -3,38 +3,40 @@
         <div class="section ">
 
             <div class="l-section col-3  bg-dark ">
-                <div class="search-bar ">
+                <div class="search-bar p-3 ">
                     <input type="text" class="my-2"
                         style="text-decoration:none;width:100%;text-align:center;height:40px; border-radius:20px;border:2px solid rgb(71, 71, 71) ;"
                         placeholder="search" name="search">
                 </div>
-                <a class="btn btn-dark my-2 " style="font-size: 30px; background-color:rgb(71, 71, 71);width:100%;" href="/add-journal" role="button">
-                + new
+                <a class="btn btn-dark my-2 " style="font-size: 30px; background-color:rgb(71, 71, 71);width:100%;"
+                    href="/add-journal" role="button">
+                    + new
                 </a>
             </div>
             <div class="r-section col-9 bg-light">
-                <div class="date my-3"> April</div>
+                <form action="/sort-date" method="post">
+                    <div class="date my-3">
+                        <div class="dropdown">
+                            <select name="selction-date" id="dates" onchange='if(this.value != 0) { this.form.submit(); }'>
+                                {{#each month}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                
                 <div class="data-list list-group">
-                    <li class="list-group-items">
-                        <div class="daily-title">day 1</div>
-                        <div class="daily-desc">this is good day with worst time</div>
+                   
+                    {{#each details}}
+                    <li class="list-group-items p-2 my-2">
+
+                        <div class="daily-title p-2 ">{{this.day}}</div>
+                        <div class="daily-desc p-2 ">"{{this.content}}"</div>
+
                     </li>
-                    <li class="list-group-items">
-                        <div class="daily-title">day 1</div>
-                        <div class="daily-desc">this is good day with worst time</div>
-                    </li>
-                    <li class="list-group-items">
-                        <div class="daily-title">day 1</div>
-                        <div class="daily-desc">this is good day with worst time</div>
-                    </li>
-                    <li class="list-group-items">
-                        <div class="daily-title">day 1</div>
-                        <div class="daily-desc">this is good day with worst time</div>
-                    </li>
-                    <li class="list-group-items">
-                        <div class="daily-title">day 1</div>
-                        <div class="daily-desc">this is good day with worst time</div>
-                    </li>
+            
+                    {{/each}}
 
                 </div>
             </div>
