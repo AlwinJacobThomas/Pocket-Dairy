@@ -6,16 +6,17 @@ var userHelpers = require('../helpers/user-helper');
 router.get('/', function (req, res, next) {
   let user = req.session.user
   let month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-  let details = [
-    { 'day': '03/25/2015', 'content': "Today is a good day" },
-    { 'day': '04/25/2015', 'content': "hav a nice day" }
-  ]
-  if (user) {
-    res.render('users/user-index', { user, month, details });
-  }
-  else {
-    res.render('users/index', { user });
-  }
+  console.log(req.body)
+  userHelpers.getAllDetails().then((data)=>{
+    
+    if (user) {
+      res.render('users/user-index', { user, month, data });
+    }
+    else {
+      res.render('users/index', { user });
+    }
+  })
+ 
 });
 router.post('/sort-date',(req,res)=>{
   let date=req.body
@@ -58,6 +59,13 @@ router.post('/signup', (req, res) => {
 })
 router.get('/add-journal', (req, res) => {
   res.render('users/add-journal')
+})
+router.post('/add-journal',(req,res)=>{
+  let details=req.body
+  userHelpers.addDetails(details,()=>{
+    console.log(details)
+  })
+  res.redirect('/login')
 })
 
 module.exports = router;
