@@ -2,6 +2,8 @@ var db = require("../config/connection");
 var collection = require("../config/collections");
 var bcrypt = require('bcrypt');
 const { response } = require("express");
+const { ObjectId } = require("mongodb");
+
 module.exports={
     doSignup:(userData)=>{
         return new Promise(async(resolve,reject)=>{
@@ -20,6 +22,7 @@ module.exports={
             if(user){
                 bcrypt.compare(userData.Password,user.Password).then((status)=>{
                     if(status){
+                        
                         response.user=user
                         response.status=true
                         resolve(response)
@@ -35,21 +38,45 @@ module.exports={
             }
         })
     },
-    addDetails: (data, callback) => {
-            db.get().collection("data")
-                .insertOne(data)
-                .then(data => {
-                    console.log(data.insertedId)
-                    callback(data.insertedId)
-                })
-                .catch(err => {
-                    console.log("error:"+err)
-                });
+    addDetails: (userid,data) => {
+            return new Promise(async(resolve,reject)=>{
+                let userObj = await db.get().collection(collection.DATA_COLLECTION).findOne({user:ObjectId(userid)})
+                if (userObj){
+                    db.get().collection(collection.DATA_COLLECTION)
+                    .updateOne({user:ObjectId(userid)},
+                        {
+                            $set:{
+                                $push:{data:data}
+                            }
+                        }
+                    ).then((response)=>{
+                        resolve()
+                    })
+                }
+                else{
+                    let dataObj={
+                        user:ObjectId(userid),
+                        data:data
+                    }
+                    db.get().collection(collection.DATA_COLLECTION)
+                    .insertOne(dataObj)
+                    .then(data => {
+                        resolve()
+                        console.log(dataObj)
+                        
+                    })
+                    .catch(err => {
+                        console.log("error:"+err)
+                    });
+                }
+                
+            })
+            
     },
-    getAllDetails:()=>{
+    getAllDetails:(user)=>{
         return new Promise(async(resolve,reject)=>{
-            let data=await db.get().collection(collection.DATA_COLLECTION).find().toArray()
-            console.log(data+"teststs")
+            let data=await db.get().collection(collection.DATA_COLLECTION).find({}).sort({ date: -1 }).toArray()
+           
             resolve(data)
         })
     }

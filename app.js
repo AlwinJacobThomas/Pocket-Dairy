@@ -7,7 +7,7 @@ var hbs = require('express-handlebars');
 var fileUpload = require('express-fileupload')
 var session = require('express-session')
 var indexRouter = require('./routes/index');
-
+var usersRouter = require('./routes/users');
 
 var app = express();
 var db = require('./config/connection')
@@ -44,7 +44,7 @@ db.connect((err)=>{
 })
 
 app.use('/', indexRouter);
-
+app.use('/user', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

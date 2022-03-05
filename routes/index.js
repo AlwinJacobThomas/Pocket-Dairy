@@ -2,41 +2,32 @@ const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 var userHelpers = require('../helpers/user-helper');
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   let user = req.session.user
-  let month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-  console.log(req.body)
-  userHelpers.getAllDetails().then((data)=>{
-    
     if (user) {
-      res.render('users/user-index', { user, month, data });
+      res.redirect('/user');
     }
     else {
-      res.render('users/index', { user });
+      res.render('index',{user});
     }
-  })
- 
 });
-router.post('/sort-date',(req,res)=>{
-  let date=req.body
-  console.log(date)
-  res.redirect('/')
-})
+
 router.get('/login', (req, res) => {
   if (req.session.loginStatus) {
-    res.redirect("/")
+    res.redirect("/user/user-index")
   } else {
-    res.render('users/login', { "loginErr": req.session.loginErr });
+    res.render('login', { "loginErr": req.session.loginErr });
     req.session.loginErr = false
   }
 });
-router.post('/login', (req, res) => {
+router.post('/login', (req,res) => {
   userHelpers.doLogin(req.body).then((response) => {
-    if (response.status) {
+    if(response.status) {
       req.session.loginStatus = true
       req.session.user = response.user
-      res.redirect('/')
+      res.redirect('user/')
     } else {
       req.session.loginErr = "Invalid Email or Password"
       res.redirect('/login')
@@ -48,7 +39,7 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 router.get('/signup', function (req, res, next) {
-  res.render('users/signup');
+  res.render('signup');
 });
 
 router.post('/signup', (req, res) => {
@@ -57,15 +48,6 @@ router.post('/signup', (req, res) => {
     res.redirect('/login')
   })
 })
-router.get('/add-journal', (req, res) => {
-  res.render('users/add-journal')
-})
-router.post('/add-journal',(req,res)=>{
-  let details=req.body
-  userHelpers.addDetails(details,()=>{
-    console.log(details)
-  })
-  res.redirect('/login')
-})
+
 
 module.exports = router;
