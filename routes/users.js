@@ -6,8 +6,14 @@ var userHelpers = require('../helpers/user-helper');
 
 router.get('/', (req, res, next) => {
   let user = req.session.user
+
   if (user) {
-    res.render('users/user-index', {user});
+    userHelpers.getAllDetails(user).then((data)=>{
+      
+      res.render('users/user-index', {user,data});
+      
+    })
+    
   }
   else {
     res.redirect('/')
@@ -24,6 +30,7 @@ router.get('/add-journal', (req, res) => {
   let user = req.session.user
   if (user) {
     let user = req.session.user
+ 
     res.render('users/add-journal',{user})
   }
   else{
@@ -33,7 +40,7 @@ router.get('/add-journal', (req, res) => {
 router.post('/add-journal', (req, res) => {
   let user = req.session.user
   if (user) {
-    userHelpers.addDetails(user.id, req.body).then(() => {
+    userHelpers.addDetails(user._id, req.body).then(() => {
       res.redirect('/user')
 
     })

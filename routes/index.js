@@ -2,6 +2,7 @@ const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 var userHelpers = require('../helpers/user-helper');
+const { ObjectId } = require("mongodb");
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -43,8 +44,16 @@ router.get('/signup', function (req, res, next) {
 });
 
 router.post('/signup', (req, res) => {
+  let date_ob = new Date();
+  let date = ("0" + date_ob.getDate()).slice(-2);
+// current month
+let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+// current year
+let year = date_ob.getFullYear();
+
   userHelpers.doSignup(req.body).then((response) => {
-    console.log(response)
+    userHelpers.addDetails(response,{date:year + "-" + month + "-" + date,content:"Account Created"})
+    
     res.redirect('/login')
   })
 })

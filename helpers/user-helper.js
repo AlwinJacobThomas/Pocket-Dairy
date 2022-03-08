@@ -9,8 +9,8 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
             userData.Password = await bcrypt.hash(userData.Password,10)
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
-                resolve(data)
-                console.log(userData)
+                resolve(data.insertedId)
+                console.log(data.insertedId)
             })
         })
     },
@@ -38,31 +38,32 @@ module.exports={
             }
         })
     },
-    addDetails: (userid,data) => {
+    addDetails: (userid,newdata) => {
             return new Promise(async(resolve,reject)=>{
                 let userObj = await db.get().collection(collection.DATA_COLLECTION).findOne({user:ObjectId(userid)})
                 if (userObj){
                     db.get().collection(collection.DATA_COLLECTION)
-                    .updateOne({user:ObjectId(userid)},
+                    .updateOne(
+                        {user:ObjectId(userid)},
                         {
-                            $set:{
-                                $push:{data:data}
+                            $push:{
+                                data:newdata
                             }
                         }
-                    ).then((response)=>{
+                    ).then(()=>{
                         resolve()
                     })
                 }
                 else{
                     let dataObj={
                         user:ObjectId(userid),
-                        data:data
+                        data:[newdata]
                     }
                     db.get().collection(collection.DATA_COLLECTION)
                     .insertOne(dataObj)
-                    .then(data => {
+                    .then(() => {
                         resolve()
-                        console.log(dataObj)
+                        console.log(data+"inserted")
                         
                     })
                     .catch(err => {
@@ -75,10 +76,16 @@ module.exports={
     },
     getAllDetails:(user)=>{
         return new Promise(async(resolve,reject)=>{
-            let data=await db.get().collection(collection.DATA_COLLECTION).find({}).sort({ date: -1 }).toArray()
+            let data=await db.get().collection(collection.DATA_COLLECTION).aggregate(
+                [   {
+                        $match:{user:ObjectId(user._id)}
+                    }
+                ]
+            ).toArray()  
            
-            resolve(data)
+            resolve(data[0].data)
         })
+        
     }
 
 }
